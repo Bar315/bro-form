@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>טופס התקנה אוטומטית</title>
+    <title>טופס הזמנה להתקנה אוטומטית</title>
     
     <!-- Tailwind CSS for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -67,9 +67,9 @@
 
     <div id="form-container" class="form-container-load bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
         <!-- Logo and Title -->
-        <img src="https://placehold.co/400x150/3b82f6/ffffff?text=החנות+שלי&font=assistant" alt="לוגו החנות שלי" class="mx-auto h-16 w-auto mb-4 rounded">
-        <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">התקנה אוטומטית עבור המנוי או המשחק שלך</h2>
-        <p class="text-center text-gray-500 mb-8">אנא מלא את כל הפרטים וצוות BRO יטפל בהזמנת במהירות</p>
+        <img src="your-logo.png" alt="לוגו החנות שלי" class="mx-auto h-16 w-auto mb-4 rounded" onerror="this.onerror=null;this.src='https://placehold.co/150x50/3b82f6/ffffff?text=Logo';">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">התקנה אוטומטית בחשבונך</h2>
+        <p class="text-center text-gray-500 mb-8">הזן את פרטיך, וצוות BRO יבצע עבורך את ההתקנה בצורה מהירה ובטוחה ישירות לפלטפורמה שבחרת.</p>
 
         <form id="orderForm">
             
@@ -101,7 +101,7 @@
             <!-- Username -->
             <div class="input-group">
                 <input type="text" id="username" name="username" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="שם משתמש" required>
-                <label for="username" class="floating-label">שם משתמש</label>
+                <label for="username" class="floating-label">שם משתמש בפלטפורמת המשחק</label>
             </div>
             
             <!-- Email -->
@@ -113,7 +113,7 @@
             <!-- Password -->
             <div class="input-group">
                 <input type="password" id="password" name="password" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="סיסמה" required>
-                <label for="password" class="floating-label">סיסמה</label>
+                <label for="password" class="floating-label">סיסמה לפלטפורמת המשחק</label>
             </div>
 
             <!-- Submit Button -->
