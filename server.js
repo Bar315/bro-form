@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
-const path = require('path'); // ודא שזה קיים
+const path = require('path');
 
 const app = express();
 
@@ -10,15 +10,16 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// השורה המתוקנת:
 // הגשת קבצים סטטיים מהתיקייה שבה נמצא קובץ server.js
+// זה יאפשר לשרת למצוא קבצים כמו 'your-logo.png' ו'form.html'
 app.use(express.static(path.join(__dirname, '')));
 
-
+// נתיב ה-GET עבור הטופס הראשי
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'form.html'));
 });
 
+// נתיב ה-POST לקבלת נתוני הטופס ושליחת המייל
 app.post("/submit", (req, res) => {
   const {
     orderId,
@@ -28,18 +29,20 @@ app.post("/submit", (req, res) => {
     password
   } = req.body;
 
+  // הגדרת ה-Transporter לשליחת מיילים באמצעות Nodemailer
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "chatbot.playwithbro@gmail.com",
-      pass: "wcmi ksmh vylk ytko"
+      user: process.env.EMAIL_USER, // כתובת ה-Gmail שלך (ממשתנה סביבה ב-Render)
+      pass: process.env.EMAIL_PASS  // סיסמת האפליקציה (ממשתנה סביבה ב-Render)
     }
   });
 
+  // הגדרת אפשרויות המייל לשליחה
   const mailOptions = {
-    from: "chatbot.playwithbro@gmail.com",
-    to: "service@playwithbro.com",
-    subject: `התקבלה הזמנה חדשה - ${orderId}`,
+    from: process.env.EMAIL_USER, // שולח המייל, עדיף להשתמש באותו משתנה סביבה
+    to: "service@playwithbro.com", // נמען המייל
+    subject: `התקבלה הזמנה חדשה - ${orderId}`, // נושא המייל
     text: `
 📦 מספר הזמנה: ${orderId}
 🎮 פלטפורמה: ${platform}
@@ -49,6 +52,7 @@ app.post("/submit", (req, res) => {
     `
   };
 
+  // שליחת המייל
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("שגיאה בשליחת המייל:", error);
@@ -59,6 +63,8 @@ app.post("/submit", (req, res) => {
   });
 });
 
+// הגדרת הפורט להאזנה
+// השרת יאזין לפורט ש-Render יקצה (process.env.PORT), או לפורט 3000 מקומית
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`📡 השרת מאזין בכתובת http://localhost:${PORT}`);
