@@ -1,111 +1,193 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>טופס הזמנה</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to left, #e0eafc, #cfdef3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>טופס התקנה אוטומטית</title>
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts for better typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
 
-    .form-container {
-      background-color: #ffffff;
-      padding: 30px 40px;
-      border-radius: 16px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      max-width: 420px;
-      width: 100%;
-      text-align: center; /* כדי למרכז את הלוגו */
-    }
+    <style>
+        /* Custom styles to complement Tailwind */
+        body {
+            font-family: 'Assistant', sans-serif;
+        }
 
-    .logo {
-      max-width: 150px; /* גודל מקסימלי ללוגו */
-      height: auto;
-      margin-bottom: 20px; /* רווח מתחת ללוגו */
-    }
+        /* Animation for form container on page load */
+        .form-container-load {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #333;
-    }
+        .form-container-loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Styles for the floating label effect */
+        .input-group {
+            position: relative;
+            margin-top: 1.5rem; /* 24px */
+        }
 
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      color: #444;
-      font-weight: bold;
-    }
+        .floating-label {
+            position: absolute;
+            top: 50%;
+            right: 1rem; /* 16px */
+            transform: translateY(-50%);
+            color: #6b7280; /* text-gray-500 */
+            background-color: white;
+            padding: 0 0.25rem; /* px-1 */
+            transition: all 0.2s ease-in-out;
+            pointer-events: none;
+        }
 
-    input, select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      margin-top: 25px;
-      padding: 12px;
-      background-color: #4a90e2;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #357ABD;
-    }
-  </style>
+        /* When input is focused or has value, the label floats up */
+        .form-input:focus + .floating-label,
+        .form-input:not(:placeholder-shown) + .floating-label {
+            top: 0;
+            font-size: 0.75rem; /* text-xs */
+            color: #3b82f6; /* blue-500 */
+        }
+        
+        /* Adjust select arrow position */
+        select {
+            background-position: left 0.5rem center;
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-l from-gray-100 to-blue-50 flex items-center justify-center min-h-screen p-4">
 
-  <div class="form-container">
-    <img src="your-logo.png" alt="לוגו החנות שלי" class="logo"> <h2>טופס הזמנה</h2>
-    <form action="/submit" method="POST">
-      
-      <label for="orderId">מספר הזמנה</label>
-      <input type="text" id="orderId" name="orderId" required>
+    <div id="form-container" class="form-container-load bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
+        <!-- Logo and Title -->
+        <img src="https://placehold.co/400x150/3b82f6/ffffff?text=החנות+שלי&font=assistant" alt="לוגו החנות שלי" class="mx-auto h-16 w-auto mb-4 rounded">
+        <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">התקנה אוטומטית עבור המנוי או המשחק שלך</h2>
+        <p class="text-center text-gray-500 mb-8">אנא מלא את כל הפרטים וצוות BRO יטפל בהזמנת במהירות</p>
 
-      <label for="platform">פלטפורמת המשחק</label>
-      <select id="platform" name="platform" required>
-        <option value="">בחר פלטפורמה</option>
-        <option value="Steam">Steam</option>
-        <option value="Epic Games">Epic Games</option>
-        <option value="Xbox / Windows">Xbox / Windows</option>
-        <option value="Ubisoft">Ubisoft (Uplay)</option>
-        <option value="GOG">GOG</option>
-        <option value="Origin">Origin (EA)</option>
-        <option value="Battle.net">Battle.net (Blizzard)</option>
-        <option value="Rockstar">Rockstar Games Launcher</option>
-      </select>
+        <form id="orderForm">
+            
+            <!-- Order ID -->
+            <div class="input-group">
+                <input type="text" id="orderId" name="orderId" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="מספר הזמנה" required>
+                <label for="orderId" class="floating-label">מספר הזמנה</label>
+            </div>
 
-      <label for="username">שם משתמש</label>
-      <input type="text" id="username" name="username" required>
+            <!-- Game Platform -->
+            <div class="input-group">
+                <select id="platform" name="platform" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none appearance-none bg-white" required>
+                    <option value="" disabled selected>בחר פלטפורמת משחק</option>
+                    <option value="Steam">Steam</option>
+                    <option value="Epic Games">Epic Games</option>
+                    <option value="Xbox / Windows">Xbox / Windows</option>
+                    <option value="Ubisoft">Ubisoft (Uplay)</option>
+                    <option value="GOG">GOG</option>
+                    <option value="Origin">Origin (EA)</option>
+                    <option value="Battle.net">Battle.net (Blizzard)</option>
+                    <option value="Rockstar">Rockstar Games Launcher</option>
+                </select>
+                <!-- Custom dropdown arrow -->
+                <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2 text-gray-700">
+                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+            </div>
 
-      <label for="email">אימייל</label>
-      <input type="email" id="email" name="email" required>
+            <!-- Username -->
+            <div class="input-group">
+                <input type="text" id="username" name="username" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="שם משתמש" required>
+                <label for="username" class="floating-label">שם משתמש</label>
+            </div>
+            
+            <!-- Email -->
+            <div class="input-group">
+                <input type="email" id="email" name="email" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="אימייל" required>
+                <label for="email" class="floating-label">אימייל</label>
+            </div>
 
-      <label for="password">סיסמה</label>
-      <input type="password" id="password" name="password" required>
+            <!-- Password -->
+            <div class="input-group">
+                <input type="password" id="password" name="password" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="סיסמה" required>
+                <label for="password" class="floating-label">סיסמה</label>
+            </div>
 
-      <button type="submit">שלח הזמנה</button>
-    </form>
-  </div>
+            <!-- Submit Button -->
+            <button type="submit" id="submit-button" class="w-full mt-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 active:scale-95">
+                שלח הזמנה
+            </button>
+        </form>
+    </div>
+    
+    <!-- Success Message Container (hidden by default) -->
+    <div id="success-message" class="hidden text-center bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
+         <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <h2 class="text-2xl font-bold text-gray-800 mt-4">ההזמנה נשלחה בהצלחה!</h2>
+        <p class="text-gray-600 mt-2">תודה רבה, ניצור איתך קשר בהקדם.</p>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const formContainer = document.getElementById('form-container');
+            const orderForm = document.getElementById('orderForm');
+            const submitButton = document.getElementById('submit-button');
+            const successMessage = document.getElementById('success-message');
+
+            // Trigger the form load animation
+            window.setTimeout(() => {
+                formContainer.classList.add('form-container-loaded');
+            }, 100);
+
+            // Handle form submission
+            orderForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent actual form submission
+
+                // Show loading state on button
+                submitButton.disabled = true;
+                submitButton.innerHTML = `
+                    <div class="flex items-center justify-center">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        שולח...
+                    </div>
+                `;
+
+                // Simulate an API call (e.g., sending data to a server)
+                setTimeout(() => {
+                    // Hide the form
+                    formContainer.style.display = 'none';
+                    
+                    // Show the success message
+                    successMessage.style.display = 'block';
+
+                }, 2000); // 2-second delay to simulate network request
+            });
+            
+            // This part handles the floating label for the select dropdown
+            const platformSelect = document.getElementById('platform');
+            const selectLabel = document.querySelector('label[for="platform"]');
+            
+            // Initially the select has a value, so we need to float the label
+            if(platformSelect.value === ""){
+                platformSelect.classList.add('placeholder-transparent');
+            }
+
+            platformSelect.addEventListener('change', function() {
+                if(this.value !== "") {
+                    this.classList.remove('placeholder-transparent');
+                } else {
+                    this.classList.add('placeholder-transparent');
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
