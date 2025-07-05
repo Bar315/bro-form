@@ -21,6 +21,13 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
       max-width: 420px;
       width: 100%;
+      text-align: center; /* כדי למרכז את הלוגו */
+    }
+
+    .logo {
+      max-width: 150px; /* גודל מקסימלי ללוגו */
+      height: auto;
+      margin-bottom: 20px; /* רווח מתחת ללוגו */
     }
 
     h2 {
@@ -68,8 +75,8 @@
 <body>
 
   <div class="form-container">
-    <h2>טופס הזמנה</h2>
-    <form action="http://localhost:3000/submit" method="POST">
+    <img src="your-logo.png" alt="לוגו החנות שלי" class="logo"> <h2>טופס הזמנה</h2>
+    <form action="/submit" method="POST">
       
       <label for="orderId">מספר הזמנה</label>
       <input type="text" id="orderId" name="orderId" required>
