@@ -11,7 +11,7 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(express.static('')); // מגיש קבצים סטטיים מהתיקייה הנוכחית
 // הגשת קובץ ה-HTML הסטטי בכתובת הבסיסית של השרת
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'form.html'));
