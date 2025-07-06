@@ -11,7 +11,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // הגשת קבצים סטטיים מהתיקייה שבה נמצא קובץ server.js
-// זה יאפשר לשרת למצוא קבצים כמו 'your-logo.png' ו'form.html'
 app.use(express.static(path.join(__dirname, '')));
 
 // נתיב ה-GET עבור הטופס הראשי
@@ -26,7 +25,8 @@ app.post("/submit", (req, res) => {
     platform,
     username,
     email,
-    password
+    password,
+    createAccount // משתנה חדש מתיבת הסימון
   } = req.body;
 
   // הגדרת ה-Transporter לשליחת מיילים באמצעות Nodemailer
@@ -38,17 +38,39 @@ app.post("/submit", (req, res) => {
     }
   });
 
+  // --- NEW: Conditionally build the details part of the email ---
+  let userDetailsText;
+  if (createAccount) {
+    // אם הלקוח ביקש לפתוח משתמש חדש
+    userDetailsText = `
+❗️ בקשה לפתיחת חשבון חדש ❗️
+יש ליצור עבור הלקוח חשבון חדש בפלטפורמה.
+אימייל לקישור החשבון: ${email}
+    `;
+  } else {
+    // אם הלקוח סיפק פרטי התחברות קיימים
+    userDetailsText = `
+👤 שם משתמש: ${username}
+🔒 סיסמה: ${password}
+✉️ אימייל ליצירת קשר: ${email}
+    `;
+  }
+
   // הגדרת אפשרויות המייל לשליחה
   const mailOptions = {
-    from: process.env.EMAIL_USER, // שולח המייל, עדיף להשתמש באותו משתנה סביבה
-    to: "service@playwithbro.com", // נמען המייל
-    subject: `התקבלה הזמנה חדשה - ${orderId}`, // נושא המייל
+    from: process.env.EMAIL_USER,
+    to: "service@playwithbro.com",
+    subject: `התקבלה הזמנה ${orderId} - ${createAccount ? 'עם בקשה ליצירת משתמש' : 'התקנה רגילה'}`,
     text: `
+פרטי הזמנה חדשה שהתקבלה דרך טופס ההתקנה האוטומטית:
+----------------------------------------------------
+
 📦 מספר הזמנה: ${orderId}
 🎮 פלטפורמה: ${platform}
-👤 שם משתמש: ${username}
-✉️ אימייל: ${email}
-🔒 סיסמה: ${password}
+
+--- פרטי התחברות ---
+${userDetailsText}
+----------------------------------------------------
     `
   };
 
@@ -64,7 +86,6 @@ app.post("/submit", (req, res) => {
 });
 
 // הגדרת הפורט להאזנה
-// השרת יאזין לפורט ש-Render יקצה (process.env.PORT), או לפורט 3000 מקומית
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`📡 השרת מאזין בכתובת http://localhost:${PORT}`);
