@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>טופס הזמנה להתקנה אוטומטית</title>
     
-    <!-- Tailwind CSS for modern styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts for better typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
@@ -61,25 +59,28 @@
         select {
             background-position: left 0.5rem center;
         }
+
+        /* Style for disabled inputs */
+        .form-input:disabled {
+            background-color: #f3f4f6; /* bg-gray-100 */
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-l from-gray-100 to-blue-50 flex items-center justify-center min-h-screen p-4">
 
     <div id="form-container" class="form-container-load bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
-        <!-- Logo and Title -->
         <img src="your-logo.png" alt="לוגו החנות שלי" class="mx-auto h-16 w-auto mb-4 rounded" onerror="this.onerror=null;this.src='https://placehold.co/150x50/3b82f6/ffffff?text=Logo';">
         <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">התקנה אוטומטית בחשבונך</h2>
         <p class="text-center text-gray-500 mb-8">הזן את פרטיך, וצוות BRO יבצע עבורך את ההתקנה בצורה מהירה ובטוחה ישירות לפלטפורמה שבחרת.</p>
 
         <form id="orderForm">
             
-            <!-- Order ID -->
             <div class="input-group">
                 <input type="text" id="orderId" name="orderId" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="מספר הזמנה" required>
                 <label for="orderId" class="floating-label">מספר הזמנה</label>
             </div>
 
-            <!-- Game Platform -->
             <div class="input-group">
                 <select id="platform" name="platform" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none appearance-none bg-white" required>
                     <option value="" disabled selected>בחר פלטפורמת משחק</option>
@@ -92,38 +93,38 @@
                     <option value="Battle.net">Battle.net (Blizzard)</option>
                     <option value="Rockstar">Rockstar Games Launcher</option>
                 </select>
-                <!-- Custom dropdown arrow -->
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2 text-gray-700">
                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                 </div>
             </div>
 
-            <!-- Username -->
+            <div class="input-group">
+                <input type="email" id="email" name="email" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="אימייל" required>
+                <label for="email" class="floating-label">אימייל ליצירת קשר</label>
+            </div>
+
             <div class="input-group">
                 <input type="text" id="username" name="username" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="שם משתמש" required>
                 <label for="username" class="floating-label">שם משתמש בפלטפורמת המשחק</label>
             </div>
             
-            <!-- Email -->
-            <div class="input-group">
-                <input type="email" id="email" name="email" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="אימייל" required>
-                <label for="email" class="floating-label">אימייל</label>
-            </div>
-
-            <!-- Password -->
             <div class="input-group">
                 <input type="password" id="password" name="password" class="form-input w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none placeholder-transparent" placeholder="סיסמה" required>
                 <label for="password" class="floating-label">סיסמה לפלטפורמת המשחק</label>
             </div>
+            
+            <div class="mt-6 flex items-center">
+                <input type="checkbox" id="createAccount" name="createAccount" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 ml-3">
+                <label for="createAccount" class="text-sm text-gray-700">אין לי חשבון, אנא צרו עבורי אחד</label>
+            </div>
 
-            <!-- Submit Button -->
+
             <button type="submit" id="submit-button" class="w-full mt-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 active:scale-95">
                 שלח הזמנה
             </button>
         </form>
     </div>
     
-    <!-- Success Message Container (hidden by default) -->
     <div id="success-message" class="hidden text-center bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
          <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <h2 class="text-2xl font-bold text-gray-800 mt-4">ההזמנה נשלחה בהצלחה!</h2>
@@ -137,11 +138,35 @@
         const orderForm = document.getElementById('orderForm');
         const submitButton = document.getElementById('submit-button');
         const successMessage = document.getElementById('success-message');
+        
+        // NEW: Get references to the new checkbox and related fields
+        const createAccountCheckbox = document.getElementById('createAccount');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
 
         // Trigger the form load animation
         window.setTimeout(() => {
             formContainer.classList.add('form-container-loaded');
         }, 100);
+
+        // NEW: Add event listener for the checkbox
+        createAccountCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            
+            // Disable/enable username and password fields
+            usernameInput.disabled = isChecked;
+            passwordInput.disabled = isChecked;
+
+            // Make them not required if checkbox is checked, so the form can be submitted
+            usernameInput.required = !isChecked;
+            passwordInput.required = !isChecked;
+
+            // Optional: Clear values when disabled
+            if (isChecked) {
+                usernameInput.value = '';
+                passwordInput.value = '';
+            }
+        });
 
         // Handle form submission
         orderForm.addEventListener('submit', function(event) {
@@ -175,7 +200,7 @@
             .then(response => {
                 if (!response.ok) {
                     // If server responds with an error, throw an error
-                    throw new Error('Network response was not ok');
+                    return response.text().then(text => { throw new Error(text) });
                 }
                 return response.text();
             })
@@ -187,8 +212,8 @@
             })
             .catch((error) => {
                 console.error('Error:', error);
-                // Handle error: show an error message to the user
-                alert('אירעה שגיאה בשליחת הטופס. אנא נסה שוב.');
+                // Handle error: show a more specific error message to the user
+                alert(`אירעה שגיאה בשליחת הטופס. נסה שוב או פנה לתמיכה.\nפרטי שגיאה: ${error.message}`);
                 // Re-enable the button
                 submitButton.disabled = false;
                 submitButton.innerHTML = 'שלח הזמנה';
