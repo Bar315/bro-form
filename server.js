@@ -168,7 +168,7 @@ app.post("/submit", (req, res) => {
   <body>
       <div class="container">
           <div class="header">
-              <h1>התקבלה הזמנה חדשה</h1>
+              <h1>התקבלה בקשת התקנה חדשה</h1>
           </div>
           <div class="content">
               <h2>פרטי הזמנה</h2>
